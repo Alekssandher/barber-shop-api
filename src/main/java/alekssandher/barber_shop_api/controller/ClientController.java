@@ -83,18 +83,17 @@ public class ClientController {
 
     // Documentation
     @Operation(summary = "Delete a client", description = "Deletes a client by its ID.")
-    @ApiResponse(responseCode = "204", description = "Client deleted successfully",
-                 content = @Content(mediaType = "application/json", schema = @Schema(implementation = DeleteResponse.class)))
+    @ApiResponse(responseCode = "204", description = "Client deleted successfully") 
     @ApiResponse(responseCode = "404", description = "Client not found",
                  content = @Content(mediaType = "application/json", schema = @Schema(implementation = NotFoundException.class)))
     @ApiResponse(responseCode = "500", description = "Internal server error",
                  content = @Content(mediaType = "application/json", schema = @Schema(implementation = InternalErrorCustom.class)))
 
     @DeleteMapping("{id}")
-    public ResponseEntity<DeleteResponse> delete(@PathVariable final long id, HttpServletRequest request) throws NotFoundException {
+    public ResponseEntity<Void> delete(@PathVariable final long id) throws NotFoundException {
         service.delete(id);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new DeleteResponse(request));
+        return ResponseEntity.noContent().build();
     }
 
     // Documentation
