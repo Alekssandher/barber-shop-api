@@ -19,10 +19,10 @@ import lombok.ToString;
 
 @Entity
 @Table(
-    name = "CLIENTS",
-    uniqueConstraints = {
-        @UniqueConstraint(name = "UK_SCHEDULE_INTERVAL", columnNames = {"start_at", "end_at"})
-    }
+        name = "SCHEDULES",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "UK_SCHEDULE_INTERVAL", columnNames = {"start_at", "end_at"}),
+        }
 )
 @Getter
 @Setter
