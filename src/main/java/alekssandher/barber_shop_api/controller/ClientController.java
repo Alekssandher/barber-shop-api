@@ -113,5 +113,18 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.OK).body(new GetResponse<>(entitiesConverted, request));
     }
 
-    
+    @Operation(summary = "Find client by ID", description = "Retrieves a client by ID.")
+    @ApiResponse(responseCode = "200", description = "Client retrivied successfully", 
+                content = @Content(mediaType = "application/json", schema = @Schema(implementation = GetResponse.class)))
+    @ApiResponse(responseCode = "404", description = "Client not found",
+                content = @Content(mediaType = "application/json", schema = @Schema(implementation = NotFoundException.class)))
+    @ApiResponse(responseCode = "500", description = "Internal server error",
+                 content = @Content(mediaType = "application/json", schema = @Schema(implementation = InternalErrorCustom.class)))
+    @GetMapping("{id}")
+    public ResponseEntity<GetResponse<ClientResponseDto>> find(@PathVariable long id, HttpServletRequest request) throws NotFoundException
+    {
+        ClientEntity entity = queryService.findById(id);
+        ClientResponseDto responseDto = ClientMapper.toResponseDto(entity);
+        return ResponseEntity.status(HttpStatus.OK).body(new GetResponse<ClientResponseDto>(responseDto, request));
+    }
 }
