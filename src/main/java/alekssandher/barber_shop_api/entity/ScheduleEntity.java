@@ -56,4 +56,12 @@ public class ScheduleEntity {
     {
         return Objects.hash(id, startAt, endAt);
     }
+
+    public ScheduleEntity() {}
+
+    public ScheduleEntity(OffsetDateTime startAt, OffsetDateTime endAt, ClientEntity client) {
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.client = client;
+    }
 }
