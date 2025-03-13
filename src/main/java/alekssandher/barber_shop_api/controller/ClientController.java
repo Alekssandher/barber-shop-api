@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import alekssandher.barber_shop_api.dto.client.ClientRequestDto;
 import alekssandher.barber_shop_api.dto.client.ClientResponseDto;
 import alekssandher.barber_shop_api.dto.response.ApiResponseDto.CreatedResponse;
-import alekssandher.barber_shop_api.dto.response.ApiResponseDto.DeleteResponse;
 import alekssandher.barber_shop_api.dto.response.ApiResponseDto.GetResponse;
 import alekssandher.barber_shop_api.dto.response.ErrorResponses.InternalErrorCustom;
 import alekssandher.barber_shop_api.entity.ClientEntity;
@@ -55,7 +54,7 @@ public class ClientController {
                  content = @Content(mediaType = "application/json", schema = @Schema(implementation = InternalErrorCustom.class)))
 
     @PostMapping
-    public ResponseEntity<CreatedResponse> save(@RequestBody @Valid ClientRequestDto dto, HttpServletRequest request) throws ConflictException {
+    public ResponseEntity<CreatedResponse> save(@RequestBody @Valid final ClientRequestDto dto, HttpServletRequest request) throws ConflictException {
         var entity = ClientMapper.toEntity(dto);
         service.save(entity);
 
