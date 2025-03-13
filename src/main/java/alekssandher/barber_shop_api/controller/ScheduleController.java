@@ -4,7 +4,6 @@ import static java.time.ZoneOffset.UTC;
 
 import java.time.YearMonth;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,6 @@ import alekssandher.barber_shop_api.dto.response.ApiResponseDto.GetResponse;
 import alekssandher.barber_shop_api.dto.response.ErrorResponses.InternalErrorCustom;
 import alekssandher.barber_shop_api.dto.schedule.AppointMentResponseDto;
 import alekssandher.barber_shop_api.dto.schedule.ScheduleRequestDto;
-import alekssandher.barber_shop_api.dto.schedule.ScheduleResponseDto;
 import alekssandher.barber_shop_api.entity.ScheduleEntity;
 import alekssandher.barber_shop_api.exceptions.Exceptions.BadRequestException;
 import alekssandher.barber_shop_api.exceptions.Exceptions.ConflictException;
@@ -102,7 +100,7 @@ public class ScheduleController {
 
         List<ScheduleEntity> entities = queryService.findInMonth(startAt, endAt);
         
-        var response = ScheduleMapper.tAppointMentResponseDto(year, month, entities);
+        var response = ScheduleMapper.toAppointMentResponseDto(year, month, entities);
 
         return ResponseEntity.status(HttpStatus.OK).body(new GetResponse<AppointMentResponseDto>(response, request));
     }

@@ -26,13 +26,16 @@ public class ScheduleMapper {
     {
         return new ScheduleResponseDto(
             entity.getId(), 
+            entity.getStartAt().getDayOfMonth(),
+            entity.getClient().getName(),
             entity.getStartAt(), 
             entity.getEndAt(), 
             entity.getClient().getId()
+            
         );
     }
 
-    public static AppointMentResponseDto tAppointMentResponseDto(int year, int month, List<ScheduleEntity> entities)
+    public static AppointMentResponseDto toAppointMentResponseDto(int year, int month, List<ScheduleEntity> entities)
     {
         var entitiesConverted = entities.stream().map(ScheduleMapper::toResponseDto).collect(Collectors.toList());
 
