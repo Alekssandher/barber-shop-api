@@ -1,5 +1,9 @@
 package alekssandher.barber_shop_api.mappers;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import alekssandher.barber_shop_api.dto.schedule.AppointMentResponseDto;
 import alekssandher.barber_shop_api.dto.schedule.ScheduleRequestDto;
 import alekssandher.barber_shop_api.dto.schedule.ScheduleResponseDto;
 import alekssandher.barber_shop_api.entity.ClientEntity;
@@ -25,6 +29,17 @@ public class ScheduleMapper {
             entity.getStartAt(), 
             entity.getEndAt(), 
             entity.getClient().getId()
+        );
+    }
+
+    public static AppointMentResponseDto tAppointMentResponseDto(int year, int month, List<ScheduleEntity> entities)
+    {
+        var entitiesConverted = entities.stream().map(ScheduleMapper::toResponseDto).collect(Collectors.toList());
+
+        return new AppointMentResponseDto(
+            year,
+            month,
+            entitiesConverted
         );
     }
 }

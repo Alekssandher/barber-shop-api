@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import alekssandher.barber_shop_api.dto.response.ApiResponseDto.CreatedResponse;
 import alekssandher.barber_shop_api.dto.response.ApiResponseDto.GetResponse;
 import alekssandher.barber_shop_api.dto.response.ErrorResponses.InternalErrorCustom;
+import alekssandher.barber_shop_api.dto.schedule.AppointMentResponseDto;
 import alekssandher.barber_shop_api.dto.schedule.ScheduleRequestDto;
 import alekssandher.barber_shop_api.dto.schedule.ScheduleResponseDto;
 import alekssandher.barber_shop_api.entity.ScheduleEntity;
@@ -89,7 +90,7 @@ public class ScheduleController {
     @ApiResponse(responseCode = "500", description = "Internal server error",
                  content = @Content(mediaType = "application/json", schema = @Schema(implementation = InternalErrorCustom.class)))
     @GetMapping("{year}/{month}")
-    public ResponseEntity<GetResponse<List<ScheduleResponseDto>>> listMonth(
+    public ResponseEntity<GetResponse<AppointMentResponseDto>> listMonth(
         @PathVariable @Min(1900) @Max(2100) final int year, 
         @PathVariable @Min(1) @Max(12) final int month, 
         HttpServletRequest request
@@ -100,8 +101,9 @@ public class ScheduleController {
         var endAt = yearMonth.atEndOfMonth().atTime(23, 59, 59, 999_999_999).atOffset(UTC);
 
         List<ScheduleEntity> entities = queryService.findInMonth(startAt, endAt);
-        var entitiesConverted = entities.stream().map(ScheduleMapper::toResponseDto).collect(Collectors.toList());
+        
+        var response = ScheduleMapper.tAppointMentResponseDto(year, month, entities);
 
-        return ResponseEntity.status(HttpStatus.OK).body(new GetResponse<>(entitiesConverted, request));
+        return ResponseEntity.status(HttpStatus.OK).body(new GetResponse<AppointMentResponseDto>(response, request));
     }
 }
